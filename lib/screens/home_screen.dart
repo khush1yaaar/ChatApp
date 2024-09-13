@@ -36,7 +36,8 @@ class _HomeScreenState extends State<HomeScreen>
         child: Padding(
           padding: const EdgeInsets.only(top: 30.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Ensure the app bar doesn't overflow
+            mainAxisSize:
+                MainAxisSize.min, // Ensure the app bar doesn't overflow
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -85,24 +86,25 @@ class _HomeScreenState extends State<HomeScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SettingsScreen()),
+                                    builder: (context) =>
+                                        const SettingsScreen()),
                               );
-                            } 
-                            else if (value == 'profile') {
+                            } else if (value == 'profile') {
                               // Perform logout action
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const ProfileScreen()),
+                                    builder: (context) =>
+                                        const ProfileScreen()),
                               );
                               print('Profile Selected');
-                            }
-                            else if (value == 'starred') {
+                            } else if (value == 'starred') {
                               // Perform logout action
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const StarredMessagesScreen()),
+                                    builder: (context) =>
+                                        const StarredMessagesScreen()),
                               );
                               print('Starred selected');
                             }
@@ -113,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildFloatingTabBar(),
             ],
           ),
@@ -176,20 +178,20 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0), // Added padding
+        padding: const EdgeInsets.symmetric(vertical: 0),
         child: TabBar(
           controller: _tabController,
-          // Increase the height of the indicator and match it with the tab height
           indicator: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(30), // Match this with outer container
-            color: Colors.blue.shade800, // Color for selected tab
+            borderRadius: BorderRadius.circular(30),
+            color: Colors.blue.shade800,
           ),
           indicatorPadding:
-              const EdgeInsets.symmetric(vertical: 0, horizontal: -30.0),
+              const EdgeInsets.symmetric(vertical: 0, horizontal: -35.0),
           labelColor: Colors.white,
           unselectedLabelColor: Colors.black54,
           labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+          // This removes the default underline of TabBar
+          //indicatorWeight: 0,
           tabs: const [
             Tab(text: 'All Chats'),
             Tab(text: '  Status  '),

@@ -1,3 +1,4 @@
+import 'package:chatapp/widgets/chat_card.dart';
 import 'package:flutter/material.dart';
 
 class AllChatsScreen extends StatefulWidget {
@@ -10,8 +11,15 @@ class AllChatsScreen extends StatefulWidget {
 class _AllChatsScreenState extends State<AllChatsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('All Chats Screen')),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
+      body: ListView(
+        children: [
+          ChatCard()
+        ],),
     );
   }
 }
