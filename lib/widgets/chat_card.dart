@@ -1,7 +1,10 @@
+import 'package:chatapp/models/chat_model.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class ChatCard extends StatelessWidget {
-  const ChatCard({super.key});
+  ChatModel chat;
+  ChatCard({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +22,14 @@ class ChatCard extends StatelessWidget {
             child: Icon(Icons.person, color: Colors.white),
           ),
           title: Text(
-            'User Name',
+            chat.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
           subtitle: Text(
-            'Last message goes here...',
+            chat.currentMessage,
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 14,
@@ -37,7 +40,7 @@ class ChatCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '12:30 PM',
+                chat.time,
                 style: TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
