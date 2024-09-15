@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen>
           controller: _tabController,
           indicator: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Colors.blue.shade800,
+            color: const Color.fromRGBO(21, 101, 192, 1),
           ),
           indicatorPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: -35.0),
