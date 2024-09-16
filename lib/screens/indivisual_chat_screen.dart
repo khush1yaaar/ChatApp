@@ -1,4 +1,5 @@
 import 'package:chatapp/models/chat_model.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -29,7 +30,8 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
 
   @override
   void dispose() {
-    _focusNode.dispose(); // Dispose of the focus node when the widget is disposed
+    _focusNode
+        .dispose(); // Dispose of the focus node when the widget is disposed
     super.dispose();
   }
 
@@ -58,7 +60,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,  // Prevent resizing when keyboard appears
+      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
       body: Stack(
         children: [
           // Background image layer (Fixed in place)
@@ -77,7 +79,8 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  child: Icon(widget.chatmodel.isGroup ? Icons.group : Icons.person),
+                  child: Icon(
+                      widget.chatmodel.isGroup ? Icons.group : Icons.person),
                 ),
                 const SizedBox(width: 10), // Spacing between avatar and text
                 Column(
@@ -119,7 +122,9 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
 
           // Enhanced Chat text field (bottom center with emoji, attachment, camera icons)
           Positioned(
-            bottom: _isKeyboardVisible ? 300 : 20, // Move up when keyboard is visible
+            bottom: _isKeyboardVisible
+                ? 300
+                : 20, // Move up when keyboard is visible
             left: 20,
             right: 20,
             child: GestureDetector(
@@ -144,9 +149,11 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                   children: [
                     // Emoji icon
                     IconButton(
-                      icon: Icon(Icons.emoji_emotions_outlined, color: Colors.grey),
+                      icon: Icon(Icons.emoji_emotions_outlined,
+                          color: Colors.grey),
                       onPressed: () {
                         // Action for emoji picker (if needed)
+                        _buildEmojiPicker();
                       },
                     ),
                     const SizedBox(width: 5),
@@ -191,6 +198,14 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildEmojiPicker() {
+    return EmojiPicker(
+      onEmojiSelected: (emoji, category) {
+        print(emoji);
+      },
     );
   }
 }
