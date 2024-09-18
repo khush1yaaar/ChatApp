@@ -26,7 +26,7 @@ class ChatCard extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 25,
-              backgroundColor: Colors.blue.shade700,
+              backgroundColor: Colors.blue.shade800,
               child: Icon(Icons.person, color: Colors.white),
             ),
             title: Text(

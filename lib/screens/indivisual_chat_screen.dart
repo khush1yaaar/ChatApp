@@ -1,6 +1,7 @@
 import 'package:chatapp/models/chat_model.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // For hiding the keyboard
 
 // ignore: must_be_immutable
 class IndivisualChatScreen extends StatefulWidget {
@@ -12,190 +13,207 @@ class IndivisualChatScreen extends StatefulWidget {
 }
 
 class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
-  // Focus node for detecting when the TextField is focused
   FocusNode _focusNode = FocusNode();
-  // Variable to track if the keyboard is open
-  bool _isKeyboardVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Add listener to detect when the TextField is focused/unfocused
-    _focusNode.addListener(() {
-      setState(() {
-        _isKeyboardVisible = _focusNode.hasFocus;
-      });
-    });
-  }
+  bool _showEmojiPicker = false;
+  TextEditingController _controller = TextEditingController();
 
   @override
   void dispose() {
-    _focusNode
-        .dispose(); // Dispose of the focus node when the widget is disposed
+    _focusNode.dispose();
     super.dispose();
   }
 
-  // The floating icon widget
-  Widget _buildFloatingIcon(IconData icon) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 6,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Icon(icon, color: Colors.black, size: 24),
-      ),
-    );
+  void _toggleEmojiPicker() {
+    if (_showEmojiPicker) {
+      // Show keyboard and hide emoji picker
+      setState(() {
+        _showEmojiPicker = false;
+      });
+      _focusNode.requestFocus();
+    } else {
+      // Hide keyboard and show emoji picker
+      setState(() {
+        _showEmojiPicker = true;
+      });
+      _focusNode.unfocus();
+      SystemChannels.textInput.invokeMethod('TextInput.hide'); // Hide keyboard
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
-      body: Stack(
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade800,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back,
+              color: Colors.white), // Back arrow made white
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Row(
+          children: [
+            CircleAvatar(
+              child:
+                  Icon(widget.chatmodel.isGroup ? Icons.group : Icons.person),
+            ),
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.chatmodel.name,
+                    style: const TextStyle(fontSize: 16, color: Colors.white)),
+                Text('last seen at ${widget.chatmodel.time}',
+                    style:
+                        const TextStyle(fontSize: 12, color: Colors.white70)),
+              ],
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.video_call, color: Colors.white),
+              onPressed: () {}),
+          IconButton(
+              icon: const Icon(Icons.call, color: Colors.white),
+              onPressed: () {}),
+        ],
+      ),
+      body: Column(
         children: [
-          // Background image layer (Fixed in place)
-          Positioned.fill(
-            child: Image.asset(
-              'lib/const/images/chat_screen.png', // Path to your custom background image
-              fit: BoxFit.cover,
-            ),
+          Expanded(
+            child: ListView(), // Placeholder for chat messages
           ),
+          _buildMessageInput(),
+          if (_showEmojiPicker) _buildEmojiPicker(),
+        ],
+      ),
+    );
+  }
 
-          // Avatar and name on the top-left corner
-          Positioned(
-            top: 40,
-            left: 20,
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  child: Icon(
-                      widget.chatmodel.isGroup ? Icons.group : Icons.person),
-                ),
-                const SizedBox(width: 10), // Spacing between avatar and text
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.chatmodel.name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+  Widget _buildMessageInput() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
                       ),
-                    ),
-                    Text(
-                      'last seen at ${widget.chatmodel.time}',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white70,
+                    ],
+                    borderRadius: BorderRadius.circular(30), // Rounded edges
+                  ),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.emoji_emotions_outlined,
+                            color: Colors.grey),
+                        onPressed: _toggleEmojiPicker,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          // Floating call and video call icons (top-right corner)
-          Positioned(
-            top: 40,
-            right: 20,
-            child: Row(
-              children: [
-                _buildFloatingIcon(Icons.video_call),
-                const SizedBox(width: 10),
-                _buildFloatingIcon(Icons.call),
-              ],
-            ),
-          ),
-
-          // Enhanced Chat text field (bottom center with emoji, attachment, camera icons)
-          Positioned(
-            bottom: _isKeyboardVisible
-                ? 300
-                : 20, // Move up when keyboard is visible
-            left: 20,
-            right: 20,
-            child: GestureDetector(
-              onTap: () {
-                // Remove focus from the TextField when the user taps outside
-                FocusScope.of(context).unfocus();
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 10,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    // Emoji icon
-                    IconButton(
-                      icon: Icon(Icons.emoji_emotions_outlined,
-                          color: Colors.grey),
-                      onPressed: () {
-                        // Action for emoji picker (if needed)
-                        _buildEmojiPicker();
-                      },
-                    ),
-                    const SizedBox(width: 5),
-
-                    // TextField for typing messages
-                    Expanded(
-                      child: TextField(
-                        focusNode: _focusNode, // Attach the focus node
-                        decoration: InputDecoration(
-                          hintText: 'Type a message...',
-                          border: InputBorder.none,
+                      Expanded(
+                        child: TextField(
+                          controller: _controller,
+                          focusNode: _focusNode,
+                          onTap: () {
+                            if (_showEmojiPicker) {
+                              setState(() {
+                                _showEmojiPicker =
+                                    false; // Hide emoji picker when typing
+                              });
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Type a message...',
+                            border: InputBorder.none, // No border
+                          ),
                         ),
                       ),
-                    ),
-
-                    // Attachment icon
-                    IconButton(
-                      icon: Icon(Icons.attach_file, color: Colors.grey),
-                      onPressed: () {
-                        // Action for attachments
-                      },
-                    ),
-                    const SizedBox(width: 5),
-
-                    // Camera icon
-                    IconButton(
-                      icon: Icon(Icons.camera_alt, color: Colors.grey),
-                      onPressed: () {
-                        // Action for camera
-                      },
-                    ),
-
-                    // Microphone icon inside CircleAvatar
-                    CircleAvatar(
-                      radius: 20,
-                      child: Icon(Icons.mic),
-                    )
-                  ],
+                      IconButton(
+                        icon: const Icon(Icons.attach_file, color: Colors.grey),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (builder) => bottomSheet());
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt, color: Colors.grey),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(
+                  width: 8), // Adds some space between the mic and input box
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: Colors.blue.shade800,
+                child: const Icon(Icons.mic, color: Colors.white),
+              ),
+            ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget bottomSheet() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      height: 250, // Adjust the height according to your needs
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              iconCreation(Icons.insert_drive_file, Colors.indigo, "Document"),
+              iconCreation(Icons.camera_alt, Colors.pink, "Camera"),
+              iconCreation(Icons.insert_photo, Colors.purple, "Gallery"),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              iconCreation(Icons.headset, Colors.orange, "Audio"),
+              iconCreation(Icons.location_pin, Colors.green, "Location"),
+              iconCreation(Icons.person, Colors.blue, "Contact"),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget iconCreation(IconData icon, Color color, String text) {
+    return InkWell(
+      onTap: () {
+        // Handle on tap for each icon here
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: color.withOpacity(0.2),
+            child: Icon(icon, size: 29, color: color),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 12),
+          )
         ],
       ),
     );
@@ -203,8 +221,11 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
 
   Widget _buildEmojiPicker() {
     return EmojiPicker(
-      onEmojiSelected: (emoji, category) {
-        print(emoji);
+      onEmojiSelected: (category, emoji) {
+        setState(() {
+          _controller.text = _controller.text +
+              emoji.emoji; // Use emoji.emoji to get the actual emoji character
+        });
       },
     );
   }
