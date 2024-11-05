@@ -47,10 +47,6 @@ class ContactCard extends StatelessWidget {
             color: Colors.blueGrey,
           ),
         ),
-        // trailing: const Icon(
-        //   Icons.chevron_right,
-        //   color: Colors.blueGrey,
-        // ),
       ),
     );
   }
