@@ -1,3 +1,4 @@
+import 'package:chatapp/screens/new_group_screen.dart';
 import 'package:chatapp/widgets/contact_card.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,10 @@ class _SelectContactScreenState extends State<SelectContactScreen> {
             onPressed: () {},
           ),
           PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert, color: Colors.white,),
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.white,
+            ),
             //color: Colors.white,
             onSelected: (value) {
               // Handle menu selection
@@ -86,14 +90,20 @@ class _SelectContactScreenState extends State<SelectContactScreen> {
                   fontSize: 18),
             ),
           ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.blue.shade800,
-              child: const Icon(Icons.group, color: Colors.white),
-            ),
-            title: const Text(
-              "New Group",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NewGroupScreen()));
+            },
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue.shade800,
+                child: const Icon(Icons.group, color: Colors.white),
+              ),
+              title: const Text(
+                "New Group",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
             ),
           ),
           ListTile(

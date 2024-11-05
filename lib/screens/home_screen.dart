@@ -1,6 +1,5 @@
 import 'package:chatapp/screens/all_chats_screen.dart';
 import 'package:chatapp/screens/calls_screen.dart';
-import 'package:chatapp/screens/profile_screen.dart';
 import 'package:chatapp/screens/settings_screen.dart';
 import 'package:chatapp/screens/starred_messages_screen.dart';
 import 'package:chatapp/screens/status_screen.dart';
@@ -63,20 +62,16 @@ class _HomeScreenState extends State<HomeScreen>
                           itemBuilder: (BuildContext context) =>
                               <PopupMenuEntry>[
                             const PopupMenuItem(
-                              value: 'profile',
-                              child: Text('Profile'),
-                            ),
-                            const PopupMenuItem(
                               value: 'newgroup',
                               child: Text('New Group'),
                             ),
                             const PopupMenuItem(
-                              value: 'settings',
-                              child: Text('Settings'),
-                            ),
-                            const PopupMenuItem(
                               value: 'starred',
                               child: Text('Starred'),
+                            ),
+                            const PopupMenuItem(
+                              value: 'settings',
+                              child: Text('Settings'),
                             ),
                           ],
                           onSelected: (value) {
@@ -89,15 +84,6 @@ class _HomeScreenState extends State<HomeScreen>
                                     builder: (context) =>
                                         const SettingsScreen()),
                               );
-                            } else if (value == 'profile') {
-                              // Perform logout action
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfileScreen()),
-                              );
-                              print('Profile Selected');
                             } else if (value == 'starred') {
                               // Perform logout action
                               Navigator.push(
