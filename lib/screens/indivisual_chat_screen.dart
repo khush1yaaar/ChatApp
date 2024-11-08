@@ -1,4 +1,5 @@
 import 'package:chatapp/models/chat_model.dart';
+import 'package:chatapp/screens/camera_page.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For hiding the keyboard
@@ -149,7 +150,12 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.camera_alt, color: Colors.grey),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CameraPage()));
+                        },
                       ),
                     ],
                   ),
@@ -179,7 +185,9 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               iconCreation(Icons.insert_drive_file, Colors.indigo, "Document"),
-              iconCreation(Icons.camera_alt, Colors.pink, "Camera"),
+              GestureDetector(
+                  onTap: () {},
+                  child: iconCreation(Icons.camera_alt, Colors.pink, "Camera")),
               iconCreation(Icons.insert_photo, Colors.purple, "Gallery"),
             ],
           ),
@@ -200,7 +208,25 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   Widget iconCreation(IconData icon, Color color, String text) {
     return InkWell(
       onTap: () {
-        // Handle on tap for each icon here
+        if(text == "Document") {
+
+        }
+        else if (text == "Camera") {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CameraPage()));
+        }
+        else if(text == "Gallery") {
+          
+        }
+        else if(text == "Audio") {
+          
+        }
+        else if(text == "Location") {
+          
+        }
+        else if(text == "Contact") {
+          
+        }
       },
       child: Column(
         children: [

@@ -1,7 +1,12 @@
+import 'package:chatapp/screens/camera_screen.dart';
 import 'package:chatapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
+import 'package:camera/camera.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   runApp(const MyApp());
 }
 
@@ -13,7 +18,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'OpenSans',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade800),
