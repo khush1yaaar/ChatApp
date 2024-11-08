@@ -57,8 +57,7 @@ class _HomeScreenState extends State<HomeScreen>
                         const SizedBox(width: 10),
                         PopupMenuButton(
                           color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: _buildFloatingIcon(
-                              Icons.more_vert), // Use your floating icon method
+                          icon: _buildFloatingIcon(Icons.more_vert), // Use your floating icon method
                           itemBuilder: (BuildContext context) =>
                               <PopupMenuEntry>[
                             const PopupMenuItem(
