@@ -1,10 +1,12 @@
+import 'package:chatapp/constants/constants.dart';
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
 import 'package:chatapp/widgets/own_message_card.dart';
 import 'package:chatapp/widgets/reply_message_card.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // For hiding the keyboard
+import 'package:flutter/services.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 // ignore: must_be_immutable
 class IndivisualChatScreen extends StatefulWidget {
@@ -19,11 +21,29 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   FocusNode _focusNode = FocusNode();
   bool _showEmojiPicker = false;
   TextEditingController _controller = TextEditingController();
+  late IO.Socket socket;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    connect();
+  }
 
   @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
+  }
+
+  void connect() {
+    socket = IO.io("http://$ip_address:5000", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoconnect": false,
+    });
+    socket.connect();
+    socket.onConnect((data) => print("connected!!!"));
+    print("${socket.connected} connected");
+    socket.emit("/test", "Hello World");
   }
 
   void _toggleEmojiPicker() {
@@ -49,7 +69,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
       children: [
         Positioned.fill(
           child: Image.asset(
-            "lib/const/images/chat_background.jpeg",
+            "lib/constants/images/chat_background.jpeg",
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -69,18 +89,19 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
             title: Row(
               children: [
                 CircleAvatar(
-                  child:
-                      Icon(widget.chatmodel.isGroup ? Icons.group : Icons.person),
+                  child: Icon(
+                      widget.chatmodel.isGroup ? Icons.group : Icons.person),
                 ),
                 const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.chatmodel.name,
-                        style: const TextStyle(fontSize: 16, color: Colors.white)),
-                    Text('last seen at ${widget.chatmodel.time}',
                         style:
-                            const TextStyle(fontSize: 12, color: Colors.white70)),
+                            const TextStyle(fontSize: 16, color: Colors.white)),
+                    Text('last seen at ${widget.chatmodel.time}',
+                        style: const TextStyle(
+                            fontSize: 12, color: Colors.white70)),
                   ],
                 ),
               ],
@@ -248,25 +269,14 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   Widget iconCreation(IconData icon, Color color, String text) {
     return InkWell(
       onTap: () {
-        if(text == "Document") {
-
-        }
-        else if (text == "Camera") {
+        if (text == "Document") {
+        } else if (text == "Camera") {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const CameraScreen()));
-        }
-        else if(text == "Gallery") {
-          
-        }
-        else if(text == "Audio") {
-          
-        }
-        else if(text == "Location") {
-          
-        }
-        else if(text == "Contact") {
-          
-        }
+        } else if (text == "Gallery") {
+        } else if (text == "Audio") {
+        } else if (text == "Location") {
+        } else if (text == "Contact") {}
       },
       child: Column(
         children: [

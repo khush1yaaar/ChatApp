@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
       children: [
         Positioned.fill(
           child: Image.asset(
-            "lib/const/images/home_background.jpeg",
+            "lib/constants/images/home_background.jpeg",
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
