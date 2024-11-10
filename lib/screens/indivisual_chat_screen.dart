@@ -1,5 +1,5 @@
 import 'package:chatapp/models/chat_model.dart';
-import 'package:chatapp/screens/camera_page.dart';
+import 'package:chatapp/screens/camera/camera_screen.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For hiding the keyboard
@@ -43,53 +43,66 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue.shade800,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back,
-              color: Colors.white), // Back arrow made white
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            "lib/const/images/chat_background.jpeg",
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+          ),
         ),
-        title: Row(
-          children: [
-            CircleAvatar(
-              child:
-                  Icon(widget.chatmodel.isGroup ? Icons.group : Icons.person),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.blue.shade800,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back,
+                  color: Colors.white), // Back arrow made white
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            title: Row(
               children: [
-                Text(widget.chatmodel.name,
-                    style: const TextStyle(fontSize: 16, color: Colors.white)),
-                Text('last seen at ${widget.chatmodel.time}',
-                    style:
-                        const TextStyle(fontSize: 12, color: Colors.white70)),
+                CircleAvatar(
+                  child:
+                      Icon(widget.chatmodel.isGroup ? Icons.group : Icons.person),
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.chatmodel.name,
+                        style: const TextStyle(fontSize: 16, color: Colors.white)),
+                    Text('last seen at ${widget.chatmodel.time}',
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.white70)),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.video_call, color: Colors.white),
-              onPressed: () {}),
-          IconButton(
-              icon: const Icon(Icons.call, color: Colors.white),
-              onPressed: () {}),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(), // Placeholder for chat messages
+            actions: [
+              IconButton(
+                  icon: const Icon(Icons.video_call, color: Colors.white),
+                  onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.call, color: Colors.white),
+                  onPressed: () {}),
+            ],
           ),
-          _buildMessageInput(),
-          if (_showEmojiPicker) _buildEmojiPicker(),
-        ],
-      ),
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView(), // Placeholder for chat messages
+              ),
+              _buildMessageInput(),
+              if (_showEmojiPicker) _buildEmojiPicker(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -107,6 +120,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
+                        // ignore: deprecated_member_use
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
@@ -154,7 +168,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CameraPage()));
+                                  builder: (context) => const CameraScreen()));
                         },
                       ),
                     ],
@@ -213,7 +227,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
         }
         else if (text == "Camera") {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const CameraPage()));
+              MaterialPageRoute(builder: (context) => const CameraScreen()));
         }
         else if(text == "Gallery") {
           

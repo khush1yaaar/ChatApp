@@ -1,0 +1,21 @@
+const express = require("express");
+var http = require("http");
+var cors = require("cors");
+const app = express();
+const port = process.env.port || 5000;
+var server = http.createServer(app);
+var io = require("socket.io")(server, 
+    {cors: {
+        origin : "*"
+    }}
+)
+app.use(express.json());
+app.use(cors());
+
+io.on("Connection", (socket) => {
+    console.log("connected");
+});
+
+server.listen(port, () => {
+    console.log("server started");
+});
