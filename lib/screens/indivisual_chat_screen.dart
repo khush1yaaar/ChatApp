@@ -1,5 +1,7 @@
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
+import 'package:chatapp/widgets/own_message_card.dart';
+import 'package:chatapp/widgets/reply_message_card.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For hiding the keyboard
@@ -95,7 +97,31 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
           body: Column(
             children: [
               Expanded(
-                child: ListView(), // Placeholder for chat messages
+                child: ListView(
+                  shrinkWrap: true,
+                  children: const [
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                    OwnMessageCard(),
+                    ReplyMessageCard(),
+                  ],
+                ), // Placeholder for chat messages
               ),
               _buildMessageInput(),
               if (_showEmojiPicker) _buildEmojiPicker(),

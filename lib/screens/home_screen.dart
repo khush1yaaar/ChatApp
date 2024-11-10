@@ -28,100 +28,112 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(150), // Adjust this size
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Ensure the app bar doesn't overflow
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Hello, Khushi',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        _buildFloatingIcon(Icons.search),
-                        const SizedBox(width: 10),
-                        PopupMenuButton(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          icon: _buildFloatingIcon(Icons.more_vert), // Use your floating icon method
-                          itemBuilder: (BuildContext context) =>
-                              <PopupMenuEntry>[
-                            const PopupMenuItem(
-                              value: 'newgroup',
-                              child: Text('New Group'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'starred',
-                              child: Text('Starred'),
-                            ),
-                            const PopupMenuItem(
-                              value: 'settings',
-                              child: Text('Settings'),
-                            ),
-                          ],
-                          onSelected: (value) {
-                            // Handle the selection
-                            if (value == 'settings') {
-                              // Navigate to settings or perform actions
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SettingsScreen()),
-                              );
-                            } else if (value == 'starred') {
-                              // Perform logout action
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const StarredMessagesScreen()),
-                              );
-                              print('Starred selected');
-                            }
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              _buildFloatingTabBar(),
-            ],
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            "lib/const/images/home_background.jpeg",
+            fit: BoxFit.cover,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
           ),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: const [
-                  AllChatsScreen(),
-                  StatusScreen(),
-                  CallsScreen(),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(150), // Adjust this size
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Column(
+                mainAxisSize:
+                    MainAxisSize.min, // Ensure the app bar doesn't overflow
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Hello, Khushi',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            _buildFloatingIcon(Icons.search),
+                            const SizedBox(width: 10),
+                            PopupMenuButton(
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                              icon: _buildFloatingIcon(Icons.more_vert), // Use your floating icon method
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry>[
+                                const PopupMenuItem(
+                                  value: 'newgroup',
+                                  child: Text('New Group'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'starred',
+                                  child: Text('Starred'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'settings',
+                                  child: Text('Settings'),
+                                ),
+                              ],
+                              onSelected: (value) {
+                                // Handle the selection
+                                if (value == 'settings') {
+                                  // Navigate to settings or perform actions
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SettingsScreen()),
+                                  );
+                                } else if (value == 'starred') {
+                                  // Perform logout action
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const StarredMessagesScreen()),
+                                  );
+                                  print('Starred selected');
+                                }
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  _buildFloatingTabBar(),
                 ],
               ),
             ),
-          ],
+          ),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: const [
+                      AllChatsScreen(),
+                      StatusScreen(),
+                      CallsScreen(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 

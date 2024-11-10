@@ -14,6 +14,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 40, right: 15),
         child: FloatingActionButton(
