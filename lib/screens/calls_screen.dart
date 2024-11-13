@@ -11,6 +11,7 @@ class _CallsScreenState extends State<CallsScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.transparent,
       body: Center(child: Text('Calls Screen')),
     );
   }

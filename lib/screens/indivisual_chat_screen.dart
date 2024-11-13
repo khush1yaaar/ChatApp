@@ -11,9 +11,12 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 // ignore: must_be_immutable
 class IndivisualChatScreen extends StatefulWidget {
   ChatModel chatmodel;
-  IndivisualChatScreen({super.key, required this.chatmodel});
+  ChatModel sourcechat;
+  IndivisualChatScreen(
+      {super.key, required this.chatmodel, required this.sourcechat});
 
   @override
+  // ignore: library_private_types_in_public_api
   _IndivisualChatScreenState createState() => _IndivisualChatScreenState();
 }
 
@@ -42,8 +45,16 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
     });
     socket.connect();
     socket.onConnect((data) => print("connected!!!"));
+    socket.emit("signin", widget.sourcechat.id);
     print("${socket.connected} connected");
-    socket.emit("/test", "Hello World");
+  }
+
+  void sendMessage(String message, int sourceId, int targetId) {
+    socket.emit("message", {
+      "message": message,
+      "sourceId": sourceId,
+      "targetId": targetId,
+    });
   }
 
   void _toggleEmojiPicker() {
@@ -233,15 +244,20 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 8), 
+              const SizedBox(width: 8),
               CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.blue.shade800,
                 child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(sendButton ? Icons.send : Icons.mic), 
-                  color: Colors.white
-                ),
+                    onPressed: () {
+                      if (sendButton) {
+                        sendMessage(_controller.text, widget.sourcechat.id,
+                            widget.chatmodel.id);
+                      }
+                      _controller.clear();
+                    },
+                    icon: Icon(sendButton ? Icons.send : Icons.mic),
+                    color: Colors.white),
               ),
             ],
           ),

@@ -1,8 +1,6 @@
 import 'package:chatapp/screens/auth/login_screen.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
-import 'package:chatapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:camera/camera.dart';
 
 Future<void> main() async {

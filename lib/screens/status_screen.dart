@@ -11,6 +11,7 @@ class _StatusScreenState extends State<StatusScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.transparent,
       body: Center(child: Text('Status Screen')),
     );
   }

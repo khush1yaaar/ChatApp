@@ -5,16 +5,17 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class ChatCard extends StatelessWidget {
   ChatModel chat;
-  ChatCard({super.key, required this.chat});
+  ChatModel sourcechat;
+  ChatCard({super.key, required this.chat, required this.sourcechat});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => IndivisualChatScreen(chatmodel: chat))
-        );
+            context,
+            MaterialPageRoute(
+                builder: (context) => IndivisualChatScreen(chatmodel: chat, sourcechat: sourcechat,)));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -28,7 +29,7 @@ class ChatCard extends StatelessWidget {
               radius: 25,
               backgroundColor: Colors.blue.shade800,
               child: Icon(
-                chat.isGroup? Icons.group : Icons.person, 
+                chat.isGroup ? Icons.group : Icons.person,
                 color: Colors.white,
               ),
             ),

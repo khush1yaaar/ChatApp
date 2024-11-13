@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
-  HomeScreen(this.chats, {super.key});
+  HomeScreen(this.chats, this.sourceChat, {super.key});
   late List<ChatModel> chats;
-  //late ChatModel sourceChat;
+  late ChatModel sourceChat;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      AllChatsScreen(chatModels: widget.chats,),
+                      AllChatsScreen(chatModels: widget.chats, sourcechat: widget.sourceChat,),
                       const StatusScreen(),
                       const CallsScreen(),
                     ],

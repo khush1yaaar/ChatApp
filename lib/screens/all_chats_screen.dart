@@ -1,4 +1,3 @@
-import 'package:chatapp/database/contacts.dart';
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/select_contact_screen.dart';
 import 'package:chatapp/widgets/chat_card.dart';
@@ -6,8 +5,9 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class AllChatsScreen extends StatefulWidget {
-  AllChatsScreen({super.key, required this.chatModels});
+  AllChatsScreen({super.key, required this.chatModels, required this.sourcechat});
   late List<ChatModel> chatModels;
+  late ChatModel sourcechat;
   @override
   State<AllChatsScreen> createState() => _AllChatsScreenState();
 }
@@ -36,6 +36,7 @@ class _AllChatsScreenState extends State<AllChatsScreen> {
         itemCount: widget.chatModels.length,
         itemBuilder: (context, index) => ChatCard(
           chat: widget.chatModels[index],
+          sourcechat: widget.sourcechat,
         ),
       ),
     );
