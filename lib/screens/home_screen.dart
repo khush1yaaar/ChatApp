@@ -1,3 +1,4 @@
+import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/all_chats_screen.dart';
 import 'package:chatapp/screens/calls_screen.dart';
 import 'package:chatapp/screens/settings_screen.dart';
@@ -5,7 +6,11 @@ import 'package:chatapp/screens/starred_messages_screen.dart';
 import 'package:chatapp/screens/status_screen.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
+  HomeScreen(this.chats, {super.key});
+  late List<ChatModel> chats;
+  //late ChatModel sourceChat;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -32,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen>
       children: [
         Positioned.fill(
           child: Image.asset(
-            "lib/constants/images/home_background.jpeg",
+            "lib/constants/images/blue_theme/home_background.jpeg",
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -67,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen>
                             const SizedBox(width: 10),
                             PopupMenuButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
-                              icon: _buildFloatingIcon(Icons.more_vert), // Use your floating icon method
+                              icon: _buildFloatingIcon(Icons
+                                  .more_vert), // Use your floating icon method
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry>[
                                 const PopupMenuItem(
@@ -122,10 +128,10 @@ class _HomeScreenState extends State<HomeScreen>
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    children: const [
-                      AllChatsScreen(),
-                      StatusScreen(),
-                      CallsScreen(),
+                    children: [
+                      AllChatsScreen(chatModels: widget.chats,),
+                      const StatusScreen(),
+                      const CallsScreen(),
                     ],
                   ),
                 ),

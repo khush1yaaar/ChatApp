@@ -18,13 +18,13 @@ class IndivisualChatScreen extends StatefulWidget {
 }
 
 class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   bool _showEmojiPicker = false;
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   late IO.Socket socket;
+  bool sendButton = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     connect();
   }
@@ -69,7 +69,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
       children: [
         Positioned.fill(
           child: Image.asset(
-            "lib/constants/images/chat_background.jpeg",
+            "lib/constants/images/blue_theme/chat_background.jpeg",
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -184,7 +184,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                         onPressed: _toggleEmojiPicker,
                       ),
                       Expanded(
-                        child: TextField(
+                        child: TextFormField(
                           controller: _controller,
                           focusNode: _focusNode,
                           onTap: () {
@@ -199,6 +199,17 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                             hintText: 'Type a message...',
                             border: InputBorder.none, // No border
                           ),
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              setState(() {
+                                sendButton = true;
+                              });
+                            } else {
+                              setState(() {
+                                sendButton = false;
+                              });
+                            }
+                          },
                         ),
                       ),
                       IconButton(
@@ -222,12 +233,15 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                  width: 8), // Adds some space between the mic and input box
+              const SizedBox(width: 8), 
               CircleAvatar(
                 radius: 24,
                 backgroundColor: Colors.blue.shade800,
-                child: const Icon(Icons.mic, color: Colors.white),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(sendButton ? Icons.send : Icons.mic), 
+                  color: Colors.white
+                ),
               ),
             ],
           ),

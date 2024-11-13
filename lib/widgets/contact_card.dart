@@ -26,11 +26,9 @@ class ContactCard extends StatelessWidget {
         leading: CircleAvatar(
           radius: 24,
           backgroundColor: Colors.blue.shade800,
-          child: SvgPicture.asset(
-            avatar,
-            fit: BoxFit.cover,
-            height: 32,
-            width: 32,
+          child: const Icon(
+            Icons.person,
+            color: Colors.white,
           ),
         ),
         title: Text(

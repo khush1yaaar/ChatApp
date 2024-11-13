@@ -7,7 +7,8 @@ List<ChatModel> contacts = [
     isGroup: false,
     time: "10:30 AM",
     about: "Excited about life!",
-    currentMessage: "Hey! Are we meeting later?"
+    currentMessage: "Hey! Are we meeting later?",
+    id: 1,
   ),
   ChatModel(
     name: "Bob Smith",
@@ -15,7 +16,8 @@ List<ChatModel> contacts = [
     isGroup: false,
     time: "9:45 AM",
     about: "Coding my way through",
-    currentMessage: "I finished the code, check it out!"
+    currentMessage: "I finished the code, check it out!",
+    id: 2,
   ),
   ChatModel(
     name: "Family Group",
@@ -23,7 +25,8 @@ List<ChatModel> contacts = [
     isGroup: true,
     time: "Yesterday",
     about: "Family comes first",
-    currentMessage: "Dinner at 8?"
+    currentMessage: "Dinner at 8?",
+    id: 3,
   ),
   ChatModel(
     name: "Emily Clark",
@@ -31,7 +34,8 @@ List<ChatModel> contacts = [
     isGroup: false,
     time: "8:15 PM",
     about: "Coffee enthusiast ☕",
-    currentMessage: "See you at the café!"
+    currentMessage: "See you at the café!",
+    id: 4,
   ),
   ChatModel(
     name: "Team Project",
@@ -39,7 +43,8 @@ List<ChatModel> contacts = [
     isGroup: true,
     time: "2:30 PM",
     about: "Team communication",
-    currentMessage: "Let's discuss the deadline!"
+    currentMessage: "Let's discuss the deadline!",
+    id: 5,
   ),
   ChatModel(
     name: "Mia Wong",
@@ -47,7 +52,8 @@ List<ChatModel> contacts = [
     isGroup: false,
     time: "6:05 AM",
     about: "Travel lover 🌍",
-    currentMessage: "Sent you the itinerary!"
+    currentMessage: "Sent you the itinerary!",
+    id: 6,
   ),
   ChatModel(
     name: "Workout Buddies",
@@ -55,7 +61,8 @@ List<ChatModel> contacts = [
     isGroup: true,
     time: "5:45 PM",
     about: "Stay fit together",
-    currentMessage: "Who's up for a run?"
+    currentMessage: "Who's up for a run?",
+    id: 7,
   ),
   ChatModel(
     name: "Jake Paul",
@@ -63,7 +70,8 @@ List<ChatModel> contacts = [
     isGroup: false,
     time: "11:20 AM",
     about: "Foodie 🍕",
-    currentMessage: "Let's grab lunch!"
+    currentMessage: "Let's grab lunch!",
+    id: 8,
   ),
   ChatModel(
     name: "Sarah Lee",
@@ -71,7 +79,8 @@ List<ChatModel> contacts = [
     isGroup: false,
     time: "Yesterday",
     about: "Nature photographer 📷",
-    currentMessage: "Check out my latest photos!"
+    currentMessage: "Check out my latest photos!",
+    id: 9,
   ),
   ChatModel(
     name: "Book Club",
@@ -79,6 +88,7 @@ List<ChatModel> contacts = [
     isGroup: true,
     time: "3:10 PM",
     about: "Books & Discussions 📚",
-    currentMessage: "Next meeting on Friday!"
+    currentMessage: "Next meeting on Friday!",
+    id: 10
   ),
 ];

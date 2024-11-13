@@ -1,3 +1,4 @@
+import 'package:chatapp/screens/auth/login_screen.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
 import 'package:chatapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade800),
         useMaterial3: true,
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
