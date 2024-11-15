@@ -1,7 +1,7 @@
 import 'package:chatapp/database/contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp/models/chat_model.dart';
-import 'package:chatapp/widgets/contact_card.dart'; // Import your ContactCard widget
+import 'package:chatapp/widgets/chat_cards/contact_card.dart'; // Import your ContactCard widget
 
 class NewGroupScreen extends StatefulWidget {
   const NewGroupScreen({super.key});

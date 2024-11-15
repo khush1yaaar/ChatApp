@@ -1,6 +1,6 @@
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/home_screen.dart';
-import 'package:chatapp/widgets/contact_card.dart';
+import 'package:chatapp/widgets/chat_cards/contact_card.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {

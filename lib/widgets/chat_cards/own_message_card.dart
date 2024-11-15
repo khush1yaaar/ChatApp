@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class OwnMessageCard extends StatelessWidget {
   String msg;
-  OwnMessageCard({super.key, required this.msg});
+  String time;
+  OwnMessageCard({super.key, required this.msg, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +39,11 @@ class OwnMessageCard extends StatelessWidget {
                   right: 0.0,
                   child: Row(
                     children: [
-                      Text("12:58"),
-                      SizedBox(
+                      Text(time),
+                      const SizedBox(
                         width: 5,
                       ),
-                      Icon(
+                      const Icon(
                         Icons.done_all,
                         color: Colors.blue,
                       )

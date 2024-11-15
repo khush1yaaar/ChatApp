@@ -2,8 +2,8 @@ import 'package:chatapp/constants/constants.dart';
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/models/message_model.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
-import 'package:chatapp/widgets/own_message_card.dart';
-import 'package:chatapp/widgets/reply_message_card.dart';
+import 'package:chatapp/widgets/chat_cards/own_message_card.dart';
+import 'package:chatapp/widgets/chat_cards/reply_message_card.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +27,10 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   final TextEditingController _controller = TextEditingController();
   late IO.Socket socket;
   bool sendButton = false;
-  List<MessageModel> messages = [];
+  List<MessageModel> messages = [
+    MessageModel(type: "R", message: "hello", time: "3:15")
+  ];
+  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -51,6 +54,8 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
       socket.on("message", (msg) {
         print(msg);
         setMessage("R", msg); // R - reviever
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: Durations.short1, curve: Curves.easeOut);
       });
     });
     socket.emit("signin", widget.sourcechat.id);
@@ -67,7 +72,10 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   }
 
   void setMessage(String type, String message) {
-    MessageModel messageModel = MessageModel(type: type, message: message);
+    MessageModel messageModel = MessageModel(
+        type: type,
+        message: message,
+        time: DateTime.now().toString().substring(10, 16));
     setState(() {
       messages.add(messageModel);
     });
@@ -142,24 +150,38 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                   onPressed: () {}),
             ],
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    if (messages[index].type == 'R') {
-                      return ReplyMessageCard(msg: messages[index].message);
-                    } else {
-                      return OwnMessageCard(msg: messages[index].message);
-                    }
-                  },
-                ), // Placeholder for chat messages
-              ),
-              _buildMessageInput(),
-              if (_showEmojiPicker) _buildEmojiPicker(),
-            ],
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    controller: _scrollController,
+                    itemCount: messages.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == messages.length) {
+                        return Container(
+                          height: 60,
+                        );
+                      }
+                      if (messages[index].type == 'R') {
+                        return ReplyMessageCard(
+                            msg: messages[index].message,
+                            time: messages[index].time);
+                      } else {
+                        return OwnMessageCard(
+                            msg: messages[index].message,
+                            time: messages[index].time);
+                      }
+                    },
+                  ), // Placeholder for chat messages
+                ),
+                _buildMessageInput(),
+                if (_showEmojiPicker) _buildEmojiPicker(),
+              ],
+            ),
           ),
         ),
       ],
@@ -253,10 +275,17 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
                 child: IconButton(
                     onPressed: () {
                       if (sendButton) {
+                        _scrollController.animateTo(
+                            _scrollController.position.maxScrollExtent,
+                            duration: Durations.short1,
+                            curve: Curves.easeOut);
                         sendMessage(_controller.text, widget.sourcechat.id,
                             widget.chatmodel.id);
                       }
                       _controller.clear();
+                      setState(() {
+                        sendButton = false;
+                      });
                     },
                     icon: Icon(sendButton ? Icons.send : Icons.mic),
                     color: Colors.white),

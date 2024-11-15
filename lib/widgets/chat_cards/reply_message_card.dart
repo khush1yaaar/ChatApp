@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class ReplyMessageCard extends StatelessWidget {
   String msg;
-  ReplyMessageCard({super.key,required this.msg});
+  String time;
+  ReplyMessageCard({super.key, required this.msg, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +34,12 @@ class ReplyMessageCard extends StatelessWidget {
                   ),
                   child: Text(msg),
                 ),
-                const Positioned(
+                Positioned(
                   bottom: 0.0,
                   right: 0.0,
                   child: Padding(
-                      padding: EdgeInsets.only(bottom: 5, right: 5),
-                      child: Text("12:58")),
+                      padding: const EdgeInsets.only(bottom: 5, right: 5),
+                      child: Text(time)),
                 )
               ],
             ),

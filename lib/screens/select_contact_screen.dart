@@ -1,5 +1,5 @@
 import 'package:chatapp/screens/new_group_screen.dart';
-import 'package:chatapp/widgets/contact_card.dart';
+import 'package:chatapp/widgets/chat_cards/contact_card.dart';
 import 'package:flutter/material.dart';
 
 class SelectContactScreen extends StatefulWidget {

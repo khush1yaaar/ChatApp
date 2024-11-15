@@ -1,6 +1,6 @@
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/select_contact_screen.dart';
-import 'package:chatapp/widgets/chat_card.dart';
+import 'package:chatapp/widgets/chat_cards/chat_card.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
