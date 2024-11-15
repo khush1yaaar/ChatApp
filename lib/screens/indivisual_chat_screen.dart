@@ -1,5 +1,6 @@
 import 'package:chatapp/constants/constants.dart';
 import 'package:chatapp/models/chat_model.dart';
+import 'package:chatapp/models/message_model.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
 import 'package:chatapp/widgets/own_message_card.dart';
 import 'package:chatapp/widgets/reply_message_card.dart';
@@ -26,6 +27,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
   final TextEditingController _controller = TextEditingController();
   late IO.Socket socket;
   bool sendButton = false;
+  List<MessageModel> messages = [];
   @override
   void initState() {
     super.initState();
@@ -44,16 +46,30 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
       "autoconnect": false,
     });
     socket.connect();
-    socket.onConnect((data) => print("connected!!!"));
+    socket.onConnect((data) {
+      print("connected!!!");
+      socket.on("message", (msg) {
+        print(msg);
+        setMessage("R", msg); // R - reviever
+      });
+    });
     socket.emit("signin", widget.sourcechat.id);
     print("${socket.connected} connected");
   }
 
   void sendMessage(String message, int sourceId, int targetId) {
+    setMessage("S", message); // S - sender
     socket.emit("message", {
       "message": message,
       "sourceId": sourceId,
       "targetId": targetId,
+    });
+  }
+
+  void setMessage(String type, String message) {
+    MessageModel messageModel = MessageModel(type: type, message: message);
+    setState(() {
+      messages.add(messageModel);
     });
   }
 
@@ -129,30 +145,16 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
           body: Column(
             children: [
               Expanded(
-                child: ListView(
+                child: ListView.builder(
                   shrinkWrap: true,
-                  children: const [
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                    OwnMessageCard(),
-                    ReplyMessageCard(),
-                  ],
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    if (messages[index].type == 'R') {
+                      return ReplyMessageCard(msg: messages[index].message);
+                    } else {
+                      return OwnMessageCard(msg: messages[index].message);
+                    }
+                  },
                 ), // Placeholder for chat messages
               ),
               _buildMessageInput(),

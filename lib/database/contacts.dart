@@ -89,6 +89,6 @@ List<ChatModel> contacts = [
     time: "3:10 PM",
     about: "Books & Discussions 📚",
     currentMessage: "Next meeting on Friday!",
-    id: 10
+    id: 10,
   ),
 ];
