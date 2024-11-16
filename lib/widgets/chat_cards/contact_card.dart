@@ -15,6 +15,7 @@ class ContactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white12,
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -41,7 +42,7 @@ class ContactCard extends StatelessWidget {
           status,
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.blueGrey,
+            color: Color.fromARGB(255, 230, 230, 230),
           ),
         ),
       ),

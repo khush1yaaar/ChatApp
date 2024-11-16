@@ -1,75 +1,111 @@
-import 'package:flutter/material.dart'; // Importing Flutter material package for UI components.
+import 'package:flutter/material.dart';
 
-// Creating an instance of CustomTheme to manage the theme state.
 CustomTheme currentTheme = CustomTheme();
 
-// CustomTheme class to handle theme toggling and state management.
 class CustomTheme with ChangeNotifier {
-  // A static boolean to track the current theme (true for dark, false for light).
-  static bool isDarkTheme = true;
+  // Define available themes
+  static String currentThemeName = 'blue'; // Default theme is blue
 
-  // Getter to return the current theme mode based on isDarkTheme.
-  ThemeMode get currentTheme => isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+  // Map for theme names to corresponding ThemeData and images
+  final Map<String, ThemeConfig> themeConfigs = {
+    'pink': ThemeConfig(
+      themeData: ThemeData(
+        primaryColor: Colors.pink,
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.pink,
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+        ),
+      ),
+      homeBg: 'lib/constants/images/pink_theme/home_background.jpg',
+      chatBg: 'lib/constants/images/pink_theme/chat_background.jpg',
+      contactBg: 'lib/constants/images/pink_theme/contact_background.jpg',
+    ),
+    'blue': ThemeConfig(
+      themeData: ThemeData(
+        primaryColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue,
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+        ),
+      ),
+      homeBg: 'lib/constants/images/blue_theme/home_background.jpeg',
+      chatBg: 'lib/constants/images/blue_theme/chat_background.jpeg',
+      contactBg: 'lib/constants/images/blue_theme/contact_background.jpg',
+    ),
+    'purple': ThemeConfig(
+      themeData: ThemeData(
+        primaryColor: Colors.purple,
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.purple,
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+        ),
+      ),
+      homeBg: 'lib/constants/images/purple_theme/home_background.jpg',
+      chatBg: 'lib/constants/images/purple_theme/chat_background.jpg',
+      contactBg: 'lib/constants/images/purple_theme/contact_background.jpg',
+    ),
+    'black': ThemeConfig(
+      themeData: ThemeData(
+        primaryColor: Colors.black,
+        scaffoldBackgroundColor: Colors.transparent,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black,
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white),
+        ),
+      ),
+      homeBg: 'lib/constants/images/black_theme/home_background.jpg',
+      chatBg: 'lib/constants/images/black_theme/chat_background.jpg',
+      contactBg: 'lib/constants/images/black_theme/contact_background.jpg',
+    ),
+  };
 
-  // Method to toggle the theme and notify listeners.
-  void toggleTheme() {
-    isDarkTheme = !isDarkTheme; // Toggle the boolean value.
-    notifyListeners(); // Notify listeners about the change.
+  // Get the current theme
+  ThemeData get themeData => themeConfigs[currentThemeName]!.themeData;
+
+  // Get background images for screens
+  String get homeBg => themeConfigs[currentThemeName]!.homeBg;
+  String get chatBg => themeConfigs[currentThemeName]!.chatBg;
+  String get contactBg => themeConfigs[currentThemeName]!.contactBg;
+
+  // Method to change the theme
+  void changeTheme(String themeName) {
+    if (themeConfigs.containsKey(themeName)) {
+      currentThemeName = themeName;
+      notifyListeners();
+    }
   }
+}
 
-  // Getter to return the light theme data.
-  static ThemeData get lightTheme {
-    return ThemeData(
-      primaryColor: Colors.blue.shade300, // Primary color for the light theme.
-      scaffoldBackgroundColor: Colors.grey.shade100, // Background color for the scaffold.
+// Theme configuration holder
+class ThemeConfig {
+  final ThemeData themeData;
+  final String homeBg;
+  final String chatBg;
+  final String contactBg;
 
-      // AppBar theme settings for the light theme.
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.blue.shade300, // Background color for the AppBar.
-        titleTextStyle: TextStyle(color: Colors.white), // Text style for the AppBar title.
-        iconTheme: IconThemeData(color: Colors.white), // Icon theme for the AppBar.
-      ),
-
-      // Text theme settings for the light theme.
-      textTheme: TextTheme(
-        displayLarge: TextStyle(color: Colors.grey.shade900), // Large display text color.
-        displayMedium: TextStyle(color: Colors.grey.shade900), // Medium display text color.
-        displaySmall: TextStyle(color: Colors.grey.shade900), // Small display text color.
-        headlineLarge: TextStyle(color: Colors.blue.shade900), // Large headline text color.
-        headlineMedium: TextStyle(color: Colors.blue.shade900), // Medium headline text color.
-        headlineSmall: TextStyle(color: Colors.blue.shade900), // Small headline text color.
-        bodyLarge: TextStyle(color: Colors.grey.shade900), // Large body text color.
-        bodyMedium: TextStyle(color: Colors.grey.shade900), // Medium body text color.
-        bodySmall: TextStyle(color: Colors.grey.shade900), // Small body text color.
-      ),
-    );
-  }
-
-  // Getter to return the dark theme data.
-  static ThemeData get darkTheme {
-    return ThemeData(
-      primaryColor: Colors.blue.shade800, // Primary color for the dark theme.
-      scaffoldBackgroundColor: Colors.grey.shade900, // Background color for the scaffold.
-
-      // AppBar theme settings for the dark theme.
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.blue.shade800, // Background color for the AppBar.
-        titleTextStyle: TextStyle(color: Colors.white), // Text style for the AppBar title.
-        iconTheme: IconThemeData(color: Colors.white), // Icon theme for the AppBar.
-      ),
-      
-      // Text theme settings for the dark theme.
-      textTheme: TextTheme(
-        displayLarge: TextStyle(color: Colors.grey.shade300), // Large display text color.
-        displayMedium: TextStyle(color: Colors.grey.shade300), // Medium display text color.
-        displaySmall: TextStyle(color: Colors.grey.shade300), // Small display text color.
-        headlineLarge: TextStyle(color: Colors.blue.shade300), // Large headline text color.
-        headlineMedium: TextStyle(color: Colors.blue.shade300), // Medium headline text color.
-        headlineSmall: TextStyle(color: Colors.blue.shade300), // Small headline text color.
-        bodyLarge: TextStyle(color: Colors.grey.shade300), // Large body text color.
-        bodyMedium: TextStyle(color: Colors.grey.shade300), // Medium body text color.
-        bodySmall: TextStyle(color: Colors.grey.shade300), // Small body text color.
-      ),
-    );
-  }
+  ThemeConfig({
+    required this.themeData,
+    required this.homeBg,
+    required this.chatBg,
+    required this.contactBg,
+  });
 }

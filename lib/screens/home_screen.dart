@@ -1,3 +1,4 @@
+import 'package:chatapp/constants/theme/themes.dart';
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/screens/all_chats_screen.dart';
 import 'package:chatapp/screens/calls_screen.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen>
       children: [
         Positioned.fill(
           child: Image.asset(
-            "lib/constants/images/blue_theme/home_background.jpeg",
+            currentTheme.homeBg,
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

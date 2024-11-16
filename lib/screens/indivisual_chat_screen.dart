@@ -1,4 +1,5 @@
 import 'package:chatapp/constants/constants.dart';
+import 'package:chatapp/constants/theme/themes.dart';
 import 'package:chatapp/models/chat_model.dart';
 import 'package:chatapp/models/message_model.dart';
 import 'package:chatapp/screens/camera/camera_screen.dart';
@@ -104,7 +105,7 @@ class _IndivisualChatScreenState extends State<IndivisualChatScreen> {
       children: [
         Positioned.fill(
           child: Image.asset(
-            "lib/constants/images/blue_theme/chat_background.jpeg",
+            currentTheme.chatBg,
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
